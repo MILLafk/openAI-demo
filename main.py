@@ -1,35 +1,28 @@
-import openai
 from flask import Flask, render_template, request
-
-# Set your OpenAI API key here
-api_key = "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"
-
-# Initialize the OpenAI API client
-openai.api_key = api_key
 
 app = Flask(__name__)
 
-@app.route('/', methods=['GET', 'POST'])
-def home():
-    response_text = ""
+# Function to calculate the product of numbers in a list
+def calculate_product(numbers):
+    product = 1
+    for num in numbers:
+        product *= num
+    return product
 
-    if request.method == 'POST':
-        user_prompt = request.form['user_prompt']
+@app.route("/", methods=["GET", "POST"])
+def index():
+    if request.method == "POST":
+        user_input = request.form.get("numbers")
+        try:
+            numbers = [float(num) for num in user_input.split(',')]
+            if len(numbers) == 0:
+                result = "No numbers entered."
+            else:
+                result = calculate_product(numbers)
+        except ValueError:
+            result = "Invalid input. Please enter numbers separated by commas."
+        return render_template("index.html", result=result)
+    return render_template("index.html")
 
-        # Make an API request to generate text
-        response = openai.Completion.create(
-            engine="text-davinci-003",
-            prompt=user_prompt,
-            max_tokens=500,
-            temperature=0.1,
-            n=2,
-            stop=None
-        )
-
-        # Extract the response text
-        response_text = response.choices[0].text.strip()
-
-    return render_template('index.html', response_text=response_text)
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)
