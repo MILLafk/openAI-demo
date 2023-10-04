@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Calculator</title>
+</head>
+<body>
+    <h1>Product Calculator</h1>
+    <form method="POST">
+        <label for="numbers">Enter numbers separated by space:</label>
+        <input type="text" name="numbers" id="numbers" required>
+        <input type="submit" value="Calculate">
+    </form>
+        {% if result %}
+            <p>The sum of the numbers is: {{ result }}</p>
+        {% endif %}
+    
+</body>
+</html>
