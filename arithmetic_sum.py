@@ -21,8 +21,8 @@ def index():
                 result = calculate_sum(numbers)
         except ValueError:
             result = "Invalid input. Please enter numbers separated by space."
-        return render_template("index.html", result=result)
-    return render_template("index.html")
+        return render_template("index_sum.html", result=result)
+    return render_template("index_sum.html")
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=6050, debug=True)
